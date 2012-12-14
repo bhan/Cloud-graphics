@@ -67,8 +67,13 @@ document.addEvent('domready', function(){
 });
 
 var Cloth = function(canvas){
+
+	this.time1 = 0.0;
+	this.time2 = 0.0;
+	this.time3 = 0.0;
+	this.time4 = 0.0;
 	
-	var max_points = 15,
+	var max_points = 101,
 		width = canvas.width,
 		height = canvas.height,
 		max_dim = Math.max(width, height),
@@ -130,26 +135,42 @@ Cloth.prototype = {
 			num_i = this.num_iterations,
 			i, j;
 			
+		var start;
 		//move each point with a pull from gravity
+		start = new Date().getTime();
 		for (i = 0; i < num_y; i++)
 			for (j = 0; j < num_x; j++)
 				this.points[i][j].move();
+		this.time1 += new Date().getTime() - start;
 		
 		//make sure all the constraints are satisfied.
+		start = new Date().getTime();
 		for (j = 0; j < num_i; j++)
 			for (i = 0; i < num_c; i++)
 				this.constraints[i].satisfy();
+		this.time2 += new Date().getTime() - start;
 		
 		//draw the necessary components.
+		start = new Date().getTime();
 		if (this.draw_constraints)
 			for (i = 0; i < this.num_constraints; i++)
 				this.constraints[i].draw();
+		this.time3 += new Date().getTime() - start;
 		
+		start = new Date().getTime();
 		if (this.draw_points)
 			for (i = 0; i < this.num_y_points; i++)
 				for (j = 0; j < this.num_x_points; j++)
 					this.points[i][j].draw();
+		this.time4 += new Date().getTime() - start;
 		
+		console.log(this.time1);
+		console.log(this.time2);
+		console.log(this.time3);
+		console.log(this.time4);
+		console.log("");
+		console.log("");
+
 	},
 	
 	getClosestPoint: function(pos) {

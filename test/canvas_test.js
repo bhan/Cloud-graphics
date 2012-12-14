@@ -1,9 +1,4 @@
-
-/**
- * Module dependencies.
- */
-
-var Canvas = require('../lib/canvas')
+var Canvas = require('canvas')
   , canvas = new Canvas(150, 150)
   , ctx = canvas.getContext('2d')
   , fs = require('fs');
@@ -26,8 +21,8 @@ ctx.restore();               // Restore original state
 ctx.fillRect(60,60,30,30);   // Draw a rectangle with restored settings
 
 var out = fs.createWriteStream(__dirname + '/state.png')
-  , stream = canvas.createPNGStream();
+	, stream = canvas.createPNGStream();
 
-stream.on('data', function(chunk){
-  out.write(chunk);
+stream.on('data', function(chunk) {
+	out.write(chunk);
 });

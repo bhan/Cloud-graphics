@@ -4,8 +4,7 @@ var Constraint = function(canvas, p1, p2, rl){
 	this.p1 = p1;
 	this.p2 = p2;
 	this.rest_length = rl || p1.getCurrent().subtract(p2.getCurrent()).length();
-//	this.squared_rest_length = this.rest_length * this.rest_length;
-	this.squared_rest_length = Math.sqrt(this.rest_length * this.rest_length);
+	this.squared_rest_length = this.rest_length * this.rest_length;
 };
 
 Constraint.prototype = {
@@ -21,9 +20,7 @@ Constraint.prototype = {
 		var p1_im = this.p1.inv_mass;
 		var p2_im = this.p2.inv_mass;
 		
-		//var d = delta.squaredLength();
-		
-		var d = delta.length();
+		var d = delta.squaredLength();
 		
 		var diff = (d - this.squared_rest_length) / ((this.squared_rest_length + d) * (p1_im + p2_im));
 		
