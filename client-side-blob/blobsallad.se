@@ -1,0 +1,147 @@
+<html>
+<head>
+<title>Blob Sallad</title>
+
+
+</head>
+<body>
+
+<iframe src="iframedsallad.html" height="440" width="640" frameborder="0" scrolling="no">
+   Your browser dosen't support iframes, click <a href="example2.html">here</a> to view the example.
+</iframe>
+
+<tt>
+<br>
+<br>
+Move around Blob with arrow keys or mouse. <br>
+Split blob with h. <br>
+Join blobs with j. <br>
+
+Turn gravity on / off with g.<br>
+<br>
+Written by: <a href="mailto:bjoern.lindberg@gmail.com">bjoern.lindberg@gmail.com</a><br>
+<a href="blobsallad.js">Javascript Source Code</a><br>
+<a href="http://www.firefox.eu.com/">Get FireFox</a>
+<br>
+<br>
+
+<b>Ray Tracing is fun and easy</b><br>
+Lately, I have been doing other things, such as this: <br>
+<a href="raytracer.html"><img src="kolasas_thumb.jpg" border=0></a><br>
+It's a raytracer I have been working on for a while. <a href="raytracer.html">Read more</a>.
+<br>
+<br>
+
+<b>Linux Version</b><br>
+<img src="Screenshot.png">
+<br>
+You can also download the source code for a Linux / SDL / Cairo demo: <a href="src/">blobsallad</a><br>
+<br>
+There is an experimental Open GL version <a href="src/blobsallad_gl.tar.gz">here</a>. <br>
+I implemented this to test performance, but it lacks some of the features of the SDL version. <br>
+I also removed the horrible linked list implementation in favor for a 'normal' stack-allocated-array class.<br>
+<br>
+Controls are: <br>
+<li>g - toggle gravity</li>
+<li>h - split blob</li>
+<li>j - join blob</li>
+<li>e - increase the size of the blobs</li>
+<li>r - decrease the size of the blobs</li>
+<li>arrow keys - push blobs around</li>
+<br>
+
+2007-01-26 11:20 I wrote this <a href="http://dev.opera.com/articles/view/blob-sallad-canvas-tag-and-javascrip/">article</a> for Chris Mills at Opera. <br>
+<br>
+
+2006-11-14 23:59 Uploaded newer version which contains some crude not too fast collision detection and <br>
+
+some kind of level that the blobs can hang around in. The collision detection is not very fast though. <br>
+See bs_octree.c for details. So if someone could implement a faster version I would be most happy. <br>
+Further, I decided to start implementing my own 2D drawing algorithms for OpenGL. I know what you <br>
+are thinking; "why don't he use this or that library?". I guess I could do that, but on the other <br>
+hand I like to try everything for myself. If I just wated a funny game I would buy a PSP :). <br>
+Either way, after doing some profiling I noticed that Cairo use rather much time so I though <br>
+maybe I could do something myself. (Long live the brave and stupid, which would be me I guess). <br>
+Also, there are some additional controls you can play around with if you like; Press e to increase <br>
+the size of the blobs, and r to shrink them. Press v to display some profiling information. Don't <br>
+
+be too confused about the percentages don't adding up, some of the tasks include the others. For <br>
+example:<br>
+<br>
+<tt>
+--- PROFILER ----------------------------------------------------<br>
+All Tasks: 2.87s<br>
+1.83s, 63.76%, BS_PROFILER_TASK_DRAW<br>
+1.03s, 35.89%, BS_PROFILER_TASK_SIMULATION<br>
+0.88s, 30.66%, BS_PROFILER_TASK_OCTREE<br>
+0.24s, 8.36%, BS_PROFILER_TASK_OCTREE_TEST_LINE_SEGMENT<br>
+
+-----------------------------------------------------------------<br>
+</tt><br>
+The First and second task are prety much everything that is done. The Octree task is included <br>
+in the simulation task. Further the test line segment task is included in the octree task. <br>
+All percentages are of the total time, 2.87 seconds in this case. <br>
+<br>
+2006-10-15 23:34 Removed support for X11 and GTK since this is never used and defunct. <br>
+<br>
+2006-10-15 22:51 Code clean up in blob collective<br>
+<br>
+2006-10-14 16:43 Implemented faster collision detection, which reduce collision detection effort <br>
+
+from 16000 computations per blob to just 40. Less is more. The only problem is that this solution <br>
+is less visual appealing due to incorrect computation of the blobs radius. So if I can fix that <br>
+I suppose it's gonna look alright. Another benefit from this approach is that the blobs doesn't <br>
+get stuck inside each other. <br>
+<br>
+2006-10-11 23:16 Implemented first collision detection so that blobs now bounce of each other. <br>
+This use up a lot of CPU since two colliding blobs are deformable and penalty forces are applied <br>
+iterative. Now this is not so good since I would like to implement some other stuff like a world <br>
+in which the blobs can do stupid blobish stuff, and I suppose I could use CPU for that. So high prio <br>
+
+is to speed this up <br>
+I have started to harass people I know for game music. If you're interested in creating music<br>
+do game design, graphics and stuff like that just send me a mail. If you wanna code you're also<br>
+welcome of course.<br>
+<br>
+2006-10-03 20:44 Fixed stability problems, model will no longer behave like a drunk sailor.<br>
+<br>
+2006-10-02 21:56 I made some changes in the blob model. First I got a nicer looking blob. <br>
+Also, I gave up using breizeir curves for drawing the blob. Now every blob is 40 line segments. <br>
+It have some interesting stability problems. Turn of gravity and see what I mean. <br>
+
+<br>
+I have also noticed that the cairo library seems to be quiet a bottle neck. <br>
+To test this, comment out all meaningful code in bs_blob_collective_draw, then spawn<br>
+blobs like crazy and notice that you can create quiet a few before any substantial <br>
+frame drop begins.<br>
+<br>
+<br>
+You need <a href="http://cairographics.org/">Cairo</a> to compile the source. <br>
+Cairo comes with most main distros such as Debian and Ubuntu. <br>
+
+<br>
+If you have any questions just send me a mail. I am NOT an evil programmer.<br>
+<br>
+<br>
+Screenshots<br>
+<br>
+<img src="Screenshot-1.png">
+<br>
+Don't tell those guys that did that game ... <br>
+</tt>
+<img src="Screenshot-2.png">
+<br>
+Here is how the blob is made. A lot of pointmasses connected <br>
+
+thogether with joints. Each joint allows for some flexibility <br>
+which makes the whole thing blobish. A pointmass turns blue to <br>
+indicate that the pointmass is inside some other blob. Once the <br>
+pointmass is inside the other blob a penalty force is applied <br>
+which force the point outside the other blob. I figured another <br>
+possibly much faster way to implement collision detection in which <br>
+two blobs are separated by a line. Points passing over the other side <br>
+of the line are put back again, hence blobs repell each other but <br>
+this should be conciderably faster and allows for fast discrimination.
+
+</body>
+</html>
